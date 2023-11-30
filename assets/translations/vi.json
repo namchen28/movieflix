@@ -1,0 +1,17 @@
+{
+    "trending": "Phim thịnh hành",
+    "popular": "Phim nổi tiếng",
+    "upcoming": "Phim sắp chiếu",
+    "topRated": "Phim được xếp hạng cao nhất",
+    "movie": "Phim",
+    "search": "Tìm kiếm",
+    "profile": "Hồ sơ",
+    "releaseDate": "Ngày phát hành",
+    "cast": "Dàn diễn viên",
+    "review": "Đánh giá",
+    "darkMode" : "Chế độ tối",
+    "language": "Ngôn ngữ",
+    "logOut": "Đăng xuất",
+    "error": "Lỗi",
+    "noReview": "Không có đánh giá"
+}

@@ -22,7 +22,6 @@ class TrendingSlider extends StatelessWidget {
           items: movieModels
               .map((movie) => GestureDetector(
                     onTap: () {
-                      print('Tapped on movie: ${movie.id}');
                       homeBloc.add(HomeMovieClickedEvent(movieId: movie));
                     },
                     child: Container(

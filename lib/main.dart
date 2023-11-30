@@ -1,15 +1,31 @@
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movieflix/auth/auth_bloc.dart';
+import 'package:movieflix/auth_main.dart';
+import 'package:movieflix/auth_repository.dart';
+import 'package:movieflix/bloc/theme.dart';
+import 'package:movieflix/bloc/theme_bloc.dart';
 import 'package:movieflix/home_bloc/home_bloc.dart';
-import 'package:movieflix/screen/home_screen.dart';
-import 'package:movieflix/screen/profile_screen.dart';
-import 'package:movieflix/screen/search_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
-    const MainApp(),
+    EasyLocalization(
+        supportedLocales: const [
+          Locale('vi'),
+          Locale('en'),
+        ],
+        path:
+            'assets/translations', // <-- change the path of the translation files
+        fallbackLocale: const Locale('en'),
+        child: const MainApp()),
   );
 }
 
@@ -21,63 +37,48 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  int _currentIndex = 0;
-
-  List navScreens = [
-    const HomeScreen(),
-    const SearchScreen(),
-    const ProfileScreen(),
-  ];
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeBloc()..add(HomeInitialEvent()),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-                backgroundColor: Colors.black,
-                selectedItemColor: CupertinoColors.destructiveRed),
-            scaffoldBackgroundColor: const Color.fromARGB(255, 50, 50, 50),
-            textTheme: Typography.whiteCupertino,
-            cupertinoOverrideTheme: const CupertinoThemeData(
-                primaryColor: CupertinoColors.destructiveRed),
-            unselectedWidgetColor: CupertinoColors.white),
-        home: Scaffold(
-          body: navScreens.elementAt(_currentIndex),
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            items: const [
-              BottomNavigationBarItem(
-                label: "Movies",
-                icon: Icon(
-                  Icons.movie_creation_rounded,
-                ),
+    return RepositoryProvider(
+        create: (context) => AuthRepository(),
+        child: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => HomeBloc()..add(HomeInitialEvent()),
               ),
-              BottomNavigationBarItem(
-                label: 'Search',
-                icon: Icon(
-                  Icons.search_rounded,
-                ),
+              BlocProvider(
+                create: (context) => ThemeBloc(),
               ),
-              BottomNavigationBarItem(
-                label: 'Profile',
-                icon: Icon(
-                  Icons.person,
-                ),
-              ),
+              BlocProvider(
+                  create: (context) =>
+                      AuthBloc(authRepository: context.read<AuthRepository>())),
             ],
-            currentIndex: _currentIndex,
-            onTap: (index) => {
-              setState(
-                () {
-                  _currentIndex = index;
-                },
-              )
-            },
-          ),
-        ),
-      ),
-    );
+            child: MaterialApp(
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
+              debugShowCheckedModeBanner: false,
+              darkTheme: darkTheme,
+              themeMode: ThemeMode.dark,
+              theme: lightTheme,
+              home: AuthMain(),
+              builder: (context, child) {
+                return BlocBuilder<ThemeBloc, ThemeMode>(
+                  builder: (context, state) {
+                    return Theme(
+                      child: child ?? SizedBox(),
+                      data: state == ThemeMode.dark ? darkTheme : lightTheme,
+                    );
+                  },
+                );
+              },
+              // home: Builder(builder: (context) {
+              //   return Scaffold(
+              //     body: navScreens.elementAt(currentIndex),
+              //     bottomNavigationBar:
+              //         BottomNavBar(),
+              //   );
+              // }),
+            )));
   }
 }

@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
+
 import 'package:movieflix/api.dart';
-import 'package:movieflix/constants.dart';
+import 'package:movieflix/favorite_repo.dart';
 import 'package:movieflix/model/cast_model.dart';
-import 'package:movieflix/model/review_model.dart';
 import 'package:movieflix/model/movies_model.dart';
+import 'package:movieflix/model/review_model.dart';
 import 'package:movieflix/model/video_model.dart';
 
 part 'movie_detail_event.dart';
@@ -18,7 +19,7 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
   MovieDetailBloc() : super(MovieDetailInitial()) {
     on<MovieDetailInitialEvent>(movieDetailInitialEvent);
     on<WatchTrailerNavigateEvent>(watchTrailerNavigateEvent);
-    // on<AddToFavoriteListEvent>(addToFavoriteListEvent);
+    on<AddToFavoriteListEvent>(addToFavoriteListEvent);
   }
 
   FutureOr<void> movieDetailInitialEvent(
@@ -42,12 +43,13 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
     emit(WatchTrailerNavigateState(videoId: video[0].key!));
   }
 
-  // FutureOr<void> addToFavoriteListEvent(AddToFavoriteListEvent event, Emitter<MovieDetailState> emit) async {
-  //   try {
-  //     await FavoriteRepo().switchFavoriteMovie(event.movie);
-  //     emit(AddToFavoriteListState(movieDetail: event.movie));
-  //   } catch (e) {
-  //     emit(MovieDetailErrorState());
-  //   }
-  // }
+  FutureOr<void> addToFavoriteListEvent(
+      AddToFavoriteListEvent event, Emitter<MovieDetailState> emit) async {
+    try {
+      await FavoriteRepo().switchFavoriteMovie(event.movie);
+      emit(AddToFavoriteListState(movieDetail: event.movie));
+    } catch (e) {
+      emit(MovieDetailErrorState());
+    }
+  }
 }

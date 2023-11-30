@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:movieflix/constants.dart';
 import 'package:movieflix/model/review_model.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -12,7 +13,6 @@ class ReviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return InkWell(
       onTap: () {
         showCustomBottomSheet(context, ReviewContent(review: review));
@@ -22,7 +22,7 @@ class ReviewCard extends StatelessWidget {
         width: 240,
         height: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.black45,
+          color: Theme.of(context).colorScheme.primaryContainer,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -32,22 +32,22 @@ class ReviewCard extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 6),
-                  child: Avatar(avatarUrl: review.avatarUrl!),
+                  child: Avatar(avatarUrl: review.authorDetails!.avatarPath),
                 ),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        review.authorName!,
-                        style: textTheme.bodyMedium,
-                        maxLines: 1,
+                        review.author!,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        review.authorUserName!,
-                        style: textTheme.bodyLarge,
-                        maxLines: 1,
+                        review.authorDetails!.username!,
+                        style: Theme.of(context).textTheme.bodySmall,
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
@@ -57,17 +57,18 @@ class ReviewCard extends StatelessWidget {
             ),
             Text(
               review.content!,
-              style: textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.bodyMedium,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Rating: ${review.rating}'),
                 Text(
-                  review.elapsedTime!,
-                  style: const TextStyle(fontSize: 10),
+                  review.authorDetails!.rating != null
+                      ? 'Rating: ${review.authorDetails!.rating!.toStringAsFixed(1)}'
+                      : 'Rating: None',
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
             )
@@ -82,7 +83,6 @@ void showCustomBottomSheet(BuildContext context, Widget child) {
   final size = MediaQuery.of(context).size.height;
   showModalBottomSheet(
     context: context,
-    backgroundColor: Colors.black,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         top: Radius.circular(20),
@@ -107,7 +107,6 @@ class ReviewContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Padding(
@@ -118,20 +117,28 @@ class ReviewContent extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 6),
-                  child: Avatar(avatarUrl: review.avatarUrl!),
+                  child: Avatar(avatarUrl: review.authorDetails!.avatarPath),
+                ),
+                const SizedBox(
+                  width: 10,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      review.authorName!,
-                      style: textTheme.bodyMedium,
+                      review.author!,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     Text(
-                      review.authorUserName!,
-                      style: textTheme.bodyLarge,
+                      review.authorDetails!.username!,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    Text('Rating: ${review.rating!.toStringAsFixed(2)}'),
+                    Text(
+                      review.authorDetails!.rating != null
+                          ? 'Rating: ${review.authorDetails!.rating!.toStringAsFixed(2)}'
+                          : 'Rating: None',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   ],
                 )
               ],
@@ -140,7 +147,7 @@ class ReviewContent extends StatelessWidget {
               padding: const EdgeInsets.only(top: 10),
               child: Text(
                 review.content!,
-                style: textTheme.bodyLarge,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
           ],
@@ -156,12 +163,13 @@ class Avatar extends StatelessWidget {
     required this.avatarUrl,
   });
 
-  final String avatarUrl;
+  final String? avatarUrl;
 
   @override
   Widget build(BuildContext context) {
+    final imageUrl = getAvatarUrl(avatarUrl);
     return CachedNetworkImage(
-      imageUrl: avatarUrl,
+      imageUrl: imageUrl,
       imageBuilder: (context, imageProvider) => CircleAvatar(
         radius: 20,
         backgroundColor: Colors.transparent,

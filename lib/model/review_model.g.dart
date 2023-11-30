@@ -8,20 +8,43 @@ part of 'review_model.dart';
 
 _$ReviewModelImpl _$$ReviewModelImplFromJson(Map<String, dynamic> json) =>
     _$ReviewModelImpl(
-      authorName: json['authorName'] as String?,
-      authorUserName: json['authorUserName'] as String?,
-      avatarUrl: json['avatarUrl'] as String?,
-      rating: (json['rating'] as num?)?.toDouble(),
+      id: json['id'] as String?,
+      author: json['author'] as String?,
       content: json['content'] as String?,
-      elapsedTime: json['elapsedTime'] as String?,
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
+      url: json['url'] as String?,
+      authorDetails: json['author_details'] == null
+          ? null
+          : ReviewAuthorDetails.fromJson(
+              json['author_details'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$ReviewModelImplToJson(_$ReviewModelImpl instance) =>
     <String, dynamic>{
-      'authorName': instance.authorName,
-      'authorUserName': instance.authorUserName,
-      'avatarUrl': instance.avatarUrl,
-      'rating': instance.rating,
+      'id': instance.id,
+      'author': instance.author,
       'content': instance.content,
-      'elapsedTime': instance.elapsedTime,
+      'created_at': instance.createdAt?.toIso8601String(),
+      'url': instance.url,
+      'author_details': instance.authorDetails,
+    };
+
+_$ReviewAuthorDetailsImpl _$$ReviewAuthorDetailsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ReviewAuthorDetailsImpl(
+      name: json['name'] as String?,
+      username: json['username'] as String?,
+      avatarPath: json['avatar_path'] as String?,
+      rating: (json['rating'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$$ReviewAuthorDetailsImplToJson(
+        _$ReviewAuthorDetailsImpl instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'username': instance.username,
+      'avatar_path': instance.avatarPath,
+      'rating': instance.rating,
     };

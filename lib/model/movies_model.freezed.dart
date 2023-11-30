@@ -21,12 +21,17 @@ Movies _$MoviesFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Movies {
   int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'backdrop_path')
   String? get backdropPath => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   String? get overview => throw _privateConstructorUsedError;
+  @JsonKey(name: 'poster_path')
   String? get posterPath => throw _privateConstructorUsedError;
+  @JsonKey(name: 'release_date')
   String? get releaseDate => throw _privateConstructorUsedError;
+  @JsonKey(name: 'vote_average')
   double? get voteAverage => throw _privateConstructorUsedError;
+  @JsonKey(name: 'vote_count')
   int? get voteCount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,13 +46,13 @@ abstract class $MoviesCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      String? backdropPath,
+      @JsonKey(name: 'backdrop_path') String? backdropPath,
       String? title,
       String? overview,
-      String? posterPath,
-      String? releaseDate,
-      double? voteAverage,
-      int? voteCount});
+      @JsonKey(name: 'poster_path') String? posterPath,
+      @JsonKey(name: 'release_date') String? releaseDate,
+      @JsonKey(name: 'vote_average') double? voteAverage,
+      @JsonKey(name: 'vote_count') int? voteCount});
 }
 
 /// @nodoc
@@ -118,13 +123,13 @@ abstract class _$$MoviesImplCopyWith<$Res> implements $MoviesCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      String? backdropPath,
+      @JsonKey(name: 'backdrop_path') String? backdropPath,
       String? title,
       String? overview,
-      String? posterPath,
-      String? releaseDate,
-      double? voteAverage,
-      int? voteCount});
+      @JsonKey(name: 'poster_path') String? posterPath,
+      @JsonKey(name: 'release_date') String? releaseDate,
+      @JsonKey(name: 'vote_average') double? voteAverage,
+      @JsonKey(name: 'vote_count') int? voteCount});
 }
 
 /// @nodoc
@@ -189,13 +194,13 @@ class __$$MoviesImplCopyWithImpl<$Res>
 class _$MoviesImpl implements _Movies {
   const _$MoviesImpl(
       {required this.id,
-      this.backdropPath,
+      @JsonKey(name: 'backdrop_path') this.backdropPath,
       this.title,
       this.overview,
-      this.posterPath,
-      this.releaseDate,
-      this.voteAverage,
-      this.voteCount});
+      @JsonKey(name: 'poster_path') this.posterPath,
+      @JsonKey(name: 'release_date') this.releaseDate,
+      @JsonKey(name: 'vote_average') this.voteAverage,
+      @JsonKey(name: 'vote_count') this.voteCount});
 
   factory _$MoviesImpl.fromJson(Map<String, dynamic> json) =>
       _$$MoviesImplFromJson(json);
@@ -203,18 +208,23 @@ class _$MoviesImpl implements _Movies {
   @override
   final int id;
   @override
+  @JsonKey(name: 'backdrop_path')
   final String? backdropPath;
   @override
   final String? title;
   @override
   final String? overview;
   @override
+  @JsonKey(name: 'poster_path')
   final String? posterPath;
   @override
+  @JsonKey(name: 'release_date')
   final String? releaseDate;
   @override
+  @JsonKey(name: 'vote_average')
   final double? voteAverage;
   @override
+  @JsonKey(name: 'vote_count')
   final int? voteCount;
 
   @override
@@ -265,31 +275,36 @@ class _$MoviesImpl implements _Movies {
 abstract class _Movies implements Movies {
   const factory _Movies(
       {required final int id,
-      final String? backdropPath,
+      @JsonKey(name: 'backdrop_path') final String? backdropPath,
       final String? title,
       final String? overview,
-      final String? posterPath,
-      final String? releaseDate,
-      final double? voteAverage,
-      final int? voteCount}) = _$MoviesImpl;
+      @JsonKey(name: 'poster_path') final String? posterPath,
+      @JsonKey(name: 'release_date') final String? releaseDate,
+      @JsonKey(name: 'vote_average') final double? voteAverage,
+      @JsonKey(name: 'vote_count') final int? voteCount}) = _$MoviesImpl;
 
   factory _Movies.fromJson(Map<String, dynamic> json) = _$MoviesImpl.fromJson;
 
   @override
   int get id;
   @override
+  @JsonKey(name: 'backdrop_path')
   String? get backdropPath;
   @override
   String? get title;
   @override
   String? get overview;
   @override
+  @JsonKey(name: 'poster_path')
   String? get posterPath;
   @override
+  @JsonKey(name: 'release_date')
   String? get releaseDate;
   @override
+  @JsonKey(name: 'vote_average')
   double? get voteAverage;
   @override
+  @JsonKey(name: 'vote_count')
   int? get voteCount;
   @override
   @JsonKey(ignore: true)

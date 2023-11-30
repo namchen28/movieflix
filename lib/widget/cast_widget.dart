@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movieflix/constants.dart';
 
 import 'package:movieflix/model/cast_model.dart';
 
@@ -11,6 +12,8 @@ class CastWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String blankProfilePath =
+        'https://alumni.engineering.utoronto.ca/files/2022/05/Avatar-Placeholder-400x400-1.jpg';
     return SizedBox(
       height: 270,
       child: ListView.separated(
@@ -26,7 +29,9 @@ class CastWidget extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Image.network(
-                    castList[index].profilePath!,
+                    castList[index].profilePath != null
+                        ? '${Constant.imagePath}${castList[index].profilePath}'
+                        : blankProfilePath,
                     height: 160,
                     width: 100,
                     fit: BoxFit.cover,
@@ -37,31 +42,20 @@ class CastWidget extends StatelessWidget {
                 ),
                 SizedBox(
                   width: 100,
-                  child: Text(
-                    castList[index].name!,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  child: Text(castList[index].name!,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodyMedium),
                 ),
                 const SizedBox(
                   height: 4,
                 ),
                 SizedBox(
                   width: 100,
-                  child: Text(
-                    castList[index].character!,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white70,
-                    ),
-                  ),
+                  child: Text(castList[index].character!,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodySmall),
                 ),
               ],
             ),

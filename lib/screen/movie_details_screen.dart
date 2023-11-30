@@ -1,8 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:movieflix/bloc/movie_detail_bloc.dart';
+import 'package:movieflix/constants.dart';
 import 'package:movieflix/model/review_model.dart';
 import 'package:movieflix/model/movies_model.dart';
 import 'package:movieflix/model/video_model.dart';
@@ -20,7 +21,7 @@ class MovieDetailPage extends StatefulWidget {
 }
 
 class _MovieDetailPageState extends State<MovieDetailPage> {
-  final VideoModel video = VideoModel();
+  final VideoModel video = const VideoModel();
   final MovieDetailBloc movieDetailBloc = MovieDetailBloc();
 
   @override
@@ -65,15 +66,14 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
               ),
             );
           case MovieDetailErrorState:
-            return const Scaffold(
+            return Scaffold(
               body: Center(
-                child: Text("Error"),
+                child: const Text("error").tr(),
               ),
             );
           case MovieDetailLoadingSuccessState:
             var successState = (state as MovieDetailLoadingSuccessState);
             String? releaseDateView = successState.movieDetail.releaseDate;
-
             return SafeArea(
               child: Scaffold(
                 body: SingleChildScrollView(
@@ -90,7 +90,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                                 borderRadius: BorderRadius.circular(12),
                                 image: DecorationImage(
                                   image: NetworkImage(
-                                      successState.movieDetail.posterPath!),
+                                      "${Constant.imagePath}${successState.movieDetail.posterPath}"),
                                   fit: BoxFit.fill,
                                 ),
                               ),
@@ -108,13 +108,11 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                                       children: [
                                         Expanded(
                                           child: Text(
-                                            successState.movieDetail.title!,
-                                            maxLines: 5,
-                                            style: GoogleFonts.nunito(
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
+                                              successState.movieDetail.title!,
+                                              maxLines: 5,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleLarge),
                                         ),
                                         GestureDetector(
                                           onTap: () {
@@ -151,50 +149,41 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                                           width: 8,
                                         ),
                                         Text(
-                                          '${successState.movieDetail.voteAverage!.toStringAsFixed(1)} (${successState.movieDetail.voteCount})',
-                                          style: GoogleFonts.nunito(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
+                                            '${successState.movieDetail.voteAverage!.toStringAsFixed(1)} (${successState.movieDetail.voteCount})',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium),
                                       ],
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    Text(
-                                      successState.movieDetail.overview!,
-                                      style: GoogleFonts.nunito(
-                                          color: CupertinoColors.systemGrey4,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
+                                    Text(successState.movieDetail.overview!,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium),
                                     const SizedBox(height: 16),
-                                    Text(
-                                      "Release Date: $releaseDateView",
-                                      style: const TextStyle(
-                                        color: CupertinoColors.systemGrey4,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
+                                    Text.rich(TextSpan(children: [
+                                      TextSpan(text: "releaseDate".tr()),
+                                      TextSpan(
+                                          text: ": $releaseDateView",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
+                                    ])),
                                     const SizedBox(height: 20),
-                                    const Text(
-                                      "Cast",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                                    Text("cast",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge)
+                                        .tr(),
                                     const SizedBox(height: 16),
                                     CastWidget(castList: successState.cast),
-                                    const Text(
-                                      "Review",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                                    Text("review",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge)
+                                        .tr(),
                                     const SizedBox(
                                       height: 16,
                                     ),
@@ -285,8 +274,8 @@ Widget _getReviews(List<ReviewModel>? reviews) {
       ],
     );
   } else {
-    return const SizedBox(
-      child: Text('No Review'),
+    return SizedBox(
+      child: const Text('noReview').tr(),
     );
   }
 }

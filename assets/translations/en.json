@@ -1,0 +1,18 @@
+{
+    "trending": "Trending Movies",
+    "popular": "Popular Movies",
+    "upcoming": "Upcoming Movies",
+    "topRated": "Top Rated Movies",
+    "movie": "Movies",
+    "search": "Search",
+    "profile": "Profile",
+    "releaseDate": "Release Date",
+    "cast": "Cast",
+    "review": "Review",
+    "darkMode" : "Dark Mode",
+    "language": "Languages",
+    "logOut": "Log Out",
+    "error": "Error",
+    "noReview": "No Review"
+
+}

@@ -27,6 +27,7 @@ mixin _$CastModels {
   String? get name => throw _privateConstructorUsedError;
   String? get originalName => throw _privateConstructorUsedError;
   double? get popularity => throw _privateConstructorUsedError;
+  @JsonKey(name: 'profile_path')
   String? get profilePath => throw _privateConstructorUsedError;
   int? get castId => throw _privateConstructorUsedError;
   String? get character => throw _privateConstructorUsedError;
@@ -53,7 +54,7 @@ abstract class $CastModelsCopyWith<$Res> {
       String? name,
       String? originalName,
       double? popularity,
-      String? profilePath,
+      @JsonKey(name: 'profile_path') String? profilePath,
       int? castId,
       String? character,
       String? creditId,
@@ -155,7 +156,7 @@ abstract class _$$CastModelsImplCopyWith<$Res>
       String? name,
       String? originalName,
       double? popularity,
-      String? profilePath,
+      @JsonKey(name: 'profile_path') String? profilePath,
       int? castId,
       String? character,
       String? creditId,
@@ -250,7 +251,7 @@ class _$CastModelsImpl implements _CastModels {
       this.name,
       this.originalName,
       this.popularity,
-      this.profilePath,
+      @JsonKey(name: 'profile_path') this.profilePath,
       this.castId,
       this.character,
       this.creditId,
@@ -274,6 +275,7 @@ class _$CastModelsImpl implements _CastModels {
   @override
   final double? popularity;
   @override
+  @JsonKey(name: 'profile_path')
   final String? profilePath;
   @override
   final int? castId;
@@ -354,7 +356,7 @@ abstract class _CastModels implements CastModels {
       final String? name,
       final String? originalName,
       final double? popularity,
-      final String? profilePath,
+      @JsonKey(name: 'profile_path') final String? profilePath,
       final int? castId,
       final String? character,
       final String? creditId,
@@ -378,6 +380,7 @@ abstract class _CastModels implements CastModels {
   @override
   double? get popularity;
   @override
+  @JsonKey(name: 'profile_path')
   String? get profilePath;
   @override
   int? get castId;

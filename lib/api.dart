@@ -163,25 +163,21 @@ class Api {
 
   Future<List<Movies>> getPopularMovies() async {
     final response = await _movieService.getPopularMovies(Constant.apiKey);
-    print(response.toString());
     return response.results;
   }
 
   Future<List<Movies>> getTopRatedMovies() async {
     final response = await _movieService.getTopRatedMovies(Constant.apiKey);
-    print(await response.toString());
     return response.results;
   }
 
   Future<List<Movies>> getTrendingMovies() async {
     final response = await _movieService.getTrendingMovies(Constant.apiKey);
-    print(await response.toString());
     return response.results;
   }
 
   Future<List<Movies>> getUpcomingMovies() async {
     final response = await _movieService.getUpcomingMovies(Constant.apiKey);
-    print(await response.toString());
     return response.results;
   }
 
@@ -209,12 +205,10 @@ class Api {
   Future<List<Movies>> searchMovie(String query) async {
     List<Movies> search = [];
     try {
-      final response = await _movieService.searchMovie(query, Constant.apiKey);
+      final response = await _movieService.searchMovie(Constant.apiKey, query);
+      search = List<Movies>.from(
+          response.results.map((movie) => Movies.fromJson(movie.toJson())));
 
-      List results = response.results;
-      for (int i = 0; i < results.length; i++) {
-        search.add(Movies.fromJson(results[i]));
-      }
       return search;
     } catch (e) {
       throw Exception(e);

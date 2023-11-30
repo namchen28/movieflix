@@ -81,7 +81,7 @@ class CastModels with _$CastModels {
     String? name,
     String? originalName,
     double? popularity,
-    String? profilePath,
+    @JsonKey(name: 'profile_path') String? profilePath,
     int? castId,
     String? character,
     String? creditId,

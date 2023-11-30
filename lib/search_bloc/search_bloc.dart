@@ -28,7 +28,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       SearchQueryEvent event, Emitter<SearchState> emit) async {
     emit(SearchingState(query: event.query));
     List<Movies> searchRepo = await _api.searchMovie(event.query);
-    print("searchRepo: $searchRepo");
     emit(SearchLoadingSuccessState(movieList: searchRepo));
   }
 

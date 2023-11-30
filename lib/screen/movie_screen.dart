@@ -1,26 +1,30 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movieflix/home_bloc/home_bloc.dart';
+import 'package:movieflix/main.dart';
 import 'package:movieflix/screen/movie_details_screen.dart';
+import 'package:movieflix/screen/profile_screen.dart';
+import 'package:movieflix/screen/search_screen.dart';
+import 'package:movieflix/widget/home.dart';
 import 'package:movieflix/widget/movie_slider.dart';
 import 'package:movieflix/widget/trending_slider.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class MovieScreen extends StatefulWidget {
+  const MovieScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<MovieScreen> createState() => _MovieScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _MovieScreenState extends State<MovieScreen> {
   final HomeBloc homeBloc = HomeBloc();
 
   @override
   void initState() {
     super.initState();
-    print('Initializing HomeScreen');
     homeBloc.add(HomeInitialEvent());
   }
 
@@ -29,10 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocConsumer<HomeBloc, HomeState>(
         bloc: homeBloc,
         listener: (context, state) {
-          print('Received state: $state');
-
           if (state is HomeMovieClickedState) {
-            print('Navigating to MovieDetailPage with movie: ${state.movie}');
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -42,7 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
         listenWhen: (previous, current) => current is HomeActionState,
         buildWhen: (previous, current) => current is! HomeActionState,
         builder: (context, state) {
-          print('Building with state: $state');
           if (state is HomeLoadingState) {
             return const Scaffold(
               body: Center(
@@ -53,7 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
             final successState = state;
             return Scaffold(
               appBar: AppBar(
-                backgroundColor: Colors.transparent,
                 title: Text(
                   'Movieflix',
                   style: GoogleFonts.aBeeZee(
@@ -69,8 +68,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Trending Movies',
-                        style: GoogleFonts.aBeeZee(fontSize: 20)),
+                    Text('trending',
+                            style: Theme.of(context).textTheme.bodyLarge)
+                        .tr(),
                     const SizedBox(
                       height: 16,
                     ),
@@ -81,9 +81,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 32,
                     ),
                     Text(
-                      'Popular Movies',
-                      style: GoogleFonts.aBeeZee(fontSize: 20),
-                    ),
+                      'popular',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ).tr(),
                     MovieSlider(
                         moviesModel: successState.popularMovies,
                         homeBloc: homeBloc),
@@ -91,9 +91,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 10,
                     ),
                     Text(
-                      'Upcoming Movies',
-                      style: GoogleFonts.aBeeZee(fontSize: 20),
-                    ),
+                      'upcoming',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ).tr(),
                     MovieSlider(
                         moviesModel: successState.upComingMovies,
                         homeBloc: homeBloc),
@@ -101,9 +101,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 10,
                     ),
                     Text(
-                      'Top rated Movies',
-                      style: GoogleFonts.aBeeZee(fontSize: 20),
-                    ),
+                      'topRated',
+                      softWrap: true,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ).tr(),
                     MovieSlider(
                         moviesModel: successState.topRatedMovies,
                         homeBloc: homeBloc),
