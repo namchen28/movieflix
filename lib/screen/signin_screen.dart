@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +7,8 @@ import 'package:movieflix/auth_repository.dart';
 import 'package:movieflix/screen/forgot_password.dart';
 import 'package:movieflix/screen/signup_screen.dart';
 import 'package:movieflix/widget/home.dart';
+import 'package:movieflix/widget/password_text_field.dart';
+import 'package:movieflix/widget/text_field.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -42,11 +45,6 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   bool obscureText = true;
-  void _toggle() {
-    setState(() {
-      obscureText = !obscureText;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,49 +98,19 @@ class _SignInScreenState extends State<SignInScreen> {
                       children: [
                         const Text('Email'),
                         const SizedBox(height: 8),
-                        CupertinoTextField(
-                            decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondaryContainer,
-                                borderRadius: BorderRadius.circular(14)),
-                            placeholderStyle:
-                                const TextStyle(color: Colors.grey),
-                            controller: _emailController,
-                            placeholder: 'Email',
-                            padding: const EdgeInsets.all(10),
-                            style: Theme.of(context).textTheme.titleSmall),
+                        CustomTextField(
+                          emailController: _emailController,
+                          placeHolder: "Email",
+                        ),
                         const SizedBox(height: 8),
-                        const Text('Password'),
+                        const Text('password').tr(),
                         const SizedBox(height: 8),
                         SizedBox(
                           height: 45,
-                          child: CupertinoTextField(
+                          child: PasswordTextField(
+                              placeHolder: 'password'.tr(),
                               obscureText: obscureText,
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .secondaryContainer,
-                                  borderRadius: BorderRadius.circular(14)),
-                              placeholderStyle:
-                                  const TextStyle(color: Colors.grey),
-                              controller: _passwordController,
-                              placeholder: 'Password',
-                              padding: const EdgeInsets.all(10),
-                              suffix: IconButton(
-                                padding: const EdgeInsets.all(8),
-                                iconSize: 24,
-                                onPressed: () {
-                                  _toggle();
-                                },
-                                icon: Icon(
-                                  obscureText
-                                      ? CupertinoIcons.eye_slash_fill
-                                      : CupertinoIcons.eye_fill,
-                                ),
-                                color: CupertinoColors.systemGrey,
-                              ),
-                              style: Theme.of(context).textTheme.titleSmall),
+                              passwordController: _passwordController),
                         ),
                       ],
                     ),
@@ -152,23 +120,24 @@ class _SignInScreenState extends State<SignInScreen> {
                       children: [
                         Row(
                           children: [
-                            CupertinoCheckbox(
-                              value: false,
-                              onChanged: (value) {
-                                return;
-                              },
-                            ),
-                            const Text('Remember me'),
+                            // CupertinoCheckbox(
+                            //   value: false,
+                            //   onChanged: (value) {
+                            //     return;
+                            //   },
+                            // ),
+                            // const Text('Remember me'),
                           ],
                         ),
-                        TextButton(
-                          onPressed: () {
+                        GestureDetector(
+                          onTap: () {
                             BlocProvider.of<AuthBloc>(context)
                                 .add(ForgotPasswordNavigateEvent());
                           },
-                          child: const Text('Forgot password',
-                              style: TextStyle(
-                                  color: CupertinoColors.destructiveRed)),
+                          child: const Text('forgotPw',
+                                  style: TextStyle(
+                                      color: CupertinoColors.destructiveRed))
+                              .tr(),
                         )
                       ],
                     ),
@@ -183,40 +152,67 @@ class _SignInScreenState extends State<SignInScreen> {
                           ),
                         );
                       },
-                      child: Text('Sign In',
-                          style: Theme.of(context).textTheme.titleSmall),
+                      child: Text('signIn',
+                              style: Theme.of(context).textTheme.titleSmall)
+                          .tr(),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('Don\'t have an account?'),
-                        TextButton(
-                            onPressed: () {
-                              BlocProvider.of<AuthBloc>(context)
-                                  .add(SignUpNavigateEvent());
-                            },
-                            child: const Text(
-                              'Sign Up',
-                              style: TextStyle(
-                                  color: CupertinoColors.destructiveRed),
-                            )),
+                        const Text('dontHaveAcc').tr(),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            BlocProvider.of<AuthBloc>(context)
+                                .add(SignUpNavigateEvent());
+                          },
+                          child: const Text(
+                            'signUp',
+                            style: TextStyle(
+                                color: CupertinoColors.destructiveRed),
+                          ).tr(),
+                        ),
                       ],
                     ),
-                    CupertinoButton.filled(
-                      onPressed: () {
-                        AuthRepository().signInWithGoogle();
-                      },
-                      child: Row(children: [
-                        Image.asset(
-                          'assets/google.png',
-                          height: 48,
-                          width: 48,
-                        ),
-                        SizedBox(
-                          width: 16,
-                        ),
-                        Text('Sign In with Google')
-                      ]),
+                    const Divider(
+                      color: Colors.grey,
+                      thickness: 0.5,
+                      indent: 8,
+                      endIndent: 8,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16.0),
+                          color: CupertinoColors.inactiveGray),
+                      height: 60,
+                      width: double.infinity,
+                      child: CupertinoButton(
+                        onPressed: () {
+                          AuthRepository().signInWithGoogle();
+                        },
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/google.png',
+                                height: 48,
+                                width: 48,
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text('google',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium)
+                                  .tr()
+                            ]),
+                      ),
                     ),
                   ],
                 );

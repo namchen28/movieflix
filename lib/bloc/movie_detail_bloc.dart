@@ -20,12 +20,14 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
     on<MovieDetailInitialEvent>(movieDetailInitialEvent);
     on<WatchTrailerNavigateEvent>(watchTrailerNavigateEvent);
     on<AddToFavoriteListEvent>(addToFavoriteListEvent);
+    on<RemoveFromFavoriteListEvent>(removeFromFavoriteListEvent);
   }
 
   FutureOr<void> movieDetailInitialEvent(
       MovieDetailInitialEvent event, Emitter<MovieDetailState> emit) async {
     emit(MovieDetailLoadingState());
     List<CastModels> cast = await _api.getMovieCast(event.movieId.id);
+    print(cast);
     List<VideoModel> video = await _api.getMovieVideos(event.movieId.id);
     List<ReviewModel> review = await _api.getMovieReviews(event.movieId.id);
     emit(MovieDetailLoadingSuccessState(
@@ -39,15 +41,30 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
   FutureOr<void> watchTrailerNavigateEvent(
       WatchTrailerNavigateEvent event, Emitter<MovieDetailState> emit) async {
     List<VideoModel> video = await _api.getMovieVideos(event.movieId.id);
+    if (video.isNotEmpty) {
+      emit(WatchTrailerNavigateState(videoId: video[0].key!));
+    } else {
+      emit(WatchTrailerErrorState());
+    }
 
-    emit(WatchTrailerNavigateState(videoId: video[0].key!));
+    // emit(WatchTrailerNavigateState(videoId: video[0].key!));
   }
 
   FutureOr<void> addToFavoriteListEvent(
       AddToFavoriteListEvent event, Emitter<MovieDetailState> emit) async {
     try {
-      await FavoriteRepo().switchFavoriteMovie(event.movie);
+      await FavoriteRepo().addToFavorite(event.movie);
       emit(AddToFavoriteListState(movieDetail: event.movie));
+    } catch (e) {
+      emit(MovieDetailErrorState());
+    }
+  }
+
+  FutureOr<void> removeFromFavoriteListEvent(
+      RemoveFromFavoriteListEvent event, Emitter<MovieDetailState> emit) async {
+    try {
+      await FavoriteRepo().removeFromFavorite(event.movie);
+      emit(RemoveFromFavoriteListState(movieDetail: event.movie));
     } catch (e) {
       emit(MovieDetailErrorState());
     }

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +18,8 @@ class ForgotPassWordScreen extends StatelessWidget {
         leading: GestureDetector(
             onTap: () => Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const SignInScreen())),
-            child: const Icon(Icons.arrow_back, size: 24, color: Colors.red)),
+            child:
+                const Icon(CupertinoIcons.back, size: 24, color: Colors.red)),
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
@@ -48,9 +50,9 @@ class ForgotPassWordScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Enter your email address to reset your password!",
+                  "resetText",
                   style: Theme.of(context).textTheme.titleSmall,
-                ),
+                ).tr(),
                 const SizedBox(height: 12),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 2),
@@ -86,8 +88,9 @@ class ForgotPassWordScreen extends StatelessWidget {
                             email: _emailController.text));
                   }),
                   color: CupertinoColors.destructiveRed,
-                  child: Text("Reset Password",
-                      style: Theme.of(context).textTheme.titleSmall),
+                  child: Text("resetPassword",
+                          style: Theme.of(context).textTheme.titleSmall)
+                      .tr(),
                 ),
               ],
             ),

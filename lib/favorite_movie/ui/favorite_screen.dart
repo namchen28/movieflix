@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:movieflix/constants.dart';
-import 'package:movieflix/model/movies_model.dart';
 import 'package:movieflix/screen/movie_details_screen.dart';
+import 'package:movieflix/widget/home.dart';
 import '../bloc/favorite_bloc.dart';
 
 class FavoriteMoviesScreen extends StatefulWidget {
@@ -22,14 +24,27 @@ class _FavoriteMoviesScreenState extends State<FavoriteMoviesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+          centerTitle: true,
+          title: Text('watchList').tr(),
+          leading: GestureDetector(
+              onTap: () {
+                Navigator.pop(context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
+              },
+              child: Icon(
+                CupertinoIcons.back,
+                color: CupertinoColors.destructiveRed,
+              ))),
       body: BlocConsumer<FavoriteBloc, FavoriteState>(
         bloc: favoriteBloc,
         listener: (context, state) {
           if (state is FavoriteMovieRemoveMovieState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('Movie removed from favorite'),
+                content: Text('removeFavorite').tr(),
                 duration: Duration(seconds: 1),
               ),
             );
@@ -81,19 +96,24 @@ class _FavoriteMoviesScreenState extends State<FavoriteMoviesScreen> {
                             },
                             icon: Icons.delete,
                             foregroundColor: Colors.red,
-                            label: 'Delete',
+                            label: 'delete'.tr(),
                           ),
                         ],
                       ),
                       child: Row(
                         children: [
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Image.network(
-                              favoriteMovies[index].posterPath != null
-                                  ? '${Constant.imagePath}${favoriteMovies[index].posterPath}'
-                                  : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
-                              width: MediaQuery.of(context).size.width,
+                            borderRadius: BorderRadius.circular(14),
+                            child: SizedBox(
+                              height: size.height * 0.3,
+                              width: size.width * 0.42,
+                              child: Image.network(
+                                filterQuality: FilterQuality.high,
+                                fit: BoxFit.cover,
+                                favoriteMovies[index].posterPath != null
+                                    ? '${Constant.imagePath}${favoriteMovies[index].posterPath}'
+                                    : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
+                              ),
                             ),
                           ),
                           SizedBox(width: 8),
@@ -121,16 +141,16 @@ class _FavoriteMoviesScreenState extends State<FavoriteMoviesScreen> {
                               ],
                             ),
                           ),
-                          SizedBox(width: 12),
-                          GestureDetector(
-                              onTap: () {
-                                favoriteBloc.add(
-                                  FavoriteRemoveMovieEvent(
-                                    movie: favoriteMovies[index],
-                                  ),
-                                );
-                              },
-                              child: Icon(Icons.delete, color: Colors.red)),
+                          // SizedBox(width: 12),
+                          // GestureDetector(
+                          //     onTap: () {
+                          //       favoriteBloc.add(
+                          //         FavoriteRemoveMovieEvent(
+                          //           movie: favoriteMovies[index],
+                          //         ),
+                          //       );
+                          //     },
+                          //     child: Icon(Icons.delete, color: Colors.red)),
                         ],
                       ),
                     ),
@@ -139,7 +159,9 @@ class _FavoriteMoviesScreenState extends State<FavoriteMoviesScreen> {
               },
             );
           }
-          return Container();
+          return Container(
+            child: Text("error").tr(),
+          );
         },
       ),
     );

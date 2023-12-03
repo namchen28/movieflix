@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieflix/auth/auth_bloc.dart';
 import 'package:movieflix/screen/profile_screen.dart';
+import 'package:movieflix/widget/home.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   const ResetPasswordScreen({super.key});
@@ -15,8 +17,8 @@ class ResetPasswordScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         elevation: 0,
         leading: GestureDetector(
-            onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ProfileScreen())),
+            onTap: () => Navigator.pop(
+                context, MaterialPageRoute(builder: (context) => HomeScreen())),
             child: const Icon(Icons.arrow_back, size: 24, color: Colors.red)),
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
@@ -48,9 +50,9 @@ class ResetPasswordScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Enter your email address to reset your password!",
+                  "resetText",
                   style: Theme.of(context).textTheme.titleSmall,
-                ),
+                ).tr(),
                 const SizedBox(height: 12),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 2),
@@ -86,8 +88,9 @@ class ResetPasswordScreen extends StatelessWidget {
                             email: _emailController.text));
                   }),
                   color: CupertinoColors.destructiveRed,
-                  child: Text("Reset Password",
-                      style: Theme.of(context).textTheme.titleSmall),
+                  child: Text("resetPassword",
+                          style: Theme.of(context).textTheme.titleSmall)
+                      .tr(),
                 ),
               ],
             ),

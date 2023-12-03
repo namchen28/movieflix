@@ -44,7 +44,7 @@ class _MainAppState extends State<MainApp> {
         child: MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) => HomeBloc()..add(HomeInitialEvent()),
+                create: (context) => HomeBloc(),
               ),
               BlocProvider(
                 create: (context) => ThemeBloc(),

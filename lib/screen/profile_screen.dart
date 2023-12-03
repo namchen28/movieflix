@@ -22,92 +22,149 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
 
-    return Scaffold(
-      body: SingleChildScrollView(
-          child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Center(
-                      child: CupertinoButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: () {},
-                        child: const CircleAvatar(
-                          radius: 50,
-                          backgroundColor: CupertinoColors.systemRed,
-                          child: Icon(
-                            CupertinoIcons.person,
-                            size: 60,
-                            color: CupertinoColors.white,
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            physics: BouncingScrollPhysics(),
+            child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 30, left: 8, right: 8),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: () {},
+                          child: const CircleAvatar(
+                            radius: 50,
+                            backgroundColor: CupertinoColors.systemRed,
+                            child: Icon(
+                              CupertinoIcons.person,
+                              size: 60,
+                              color: CupertinoColors.white,
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Center(
-                      child: Text(
-                        '${user.email}',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    buildProfileButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ResetPasswordScreen(),
-                        ));
-                      },
-                      icon: CupertinoIcons.pencil,
-                      label: 'Reset Password',
-                    ),
-                    buildProfileButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => FavoriteMoviesScreen()));
-                      },
-                      icon: CupertinoIcons.bookmark,
-                      label: 'Watchlist',
-                    ),
-                    Row(
-                      children: [
-                        const Icon(CupertinoIcons.globe),
-                        const SizedBox(width: 8),
-                        const Text('language').tr(),
-                        const Spacer(),
-                        DropdownMenu(
-                          onSelected: (value) {
-                            context.setLocale(Locale(value!));
-                          },
-                          initialSelection:
-                              Localizations.localeOf(context).languageCode,
-                          dropdownMenuEntries: const [
-                            DropdownMenuEntry(value: 'en', label: 'English'),
-                            DropdownMenuEntry(value: 'vi', label: 'Tiếng Việt')
-                          ],
+                        const SizedBox(height: 20),
+                        Center(
+                          child: Text(
+                            '${user.email}',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
                         ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('darkMode').tr(),
-                        BlocBuilder<ThemeBloc, ThemeMode>(
-                          builder: (context, state) {
-                            return CupertinoSwitch(
-                              value: context.read<ThemeBloc>().state ==
-                                  ThemeMode.dark,
-                              onChanged: (value) {
-                                context
-                                    .read<ThemeBloc>()
-                                    .add(ThemeChanged(value));
-                              },
-                            );
+                        const SizedBox(height: 20),
+                        // buildProfileButton(
+                        //   onPressed: () {
+                        //     Navigator.of(context).push(MaterialPageRoute(
+                        //       builder: (context) => ResetPasswordScreen(),
+                        //     ));
+                        //   },
+                        //   icon: CupertinoIcons.pencil,
+                        //   label: 'Reset Password',
+                        // ),
+                        Divider(),
+                        CupertinoButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ResetPasswordScreen(),
+                            ));
                           },
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                CupertinoIcons.pencil,
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Text('resetPassword').tr(),
+                              Spacer(),
+                              Icon(CupertinoIcons.right_chevron)
+                            ],
+                          ),
                         ),
+                        Divider(),
+                        CupertinoButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        FavoriteMoviesScreen()));
+                          },
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                CupertinoIcons.bookmark,
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Text('watchList').tr(),
+                              Spacer(),
+                              Icon(CupertinoIcons.right_chevron)
+                            ],
+                          ),
+                        ),
+                        Divider(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Row(
+                            children: [
+                              const Icon(CupertinoIcons.globe),
+                              const SizedBox(width: 8),
+                              const Text('language').tr(),
+                              Spacer(),
+                              DropdownMenu(
+                                width: 160,
+                                onSelected: (value) {
+                                  context.setLocale(Locale(value!));
+                                },
+                                initialSelection:
+                                    Localizations.localeOf(context)
+                                        .languageCode,
+                                dropdownMenuEntries: [
+                                  DropdownMenuEntry(
+                                      value: 'en', label: 'English'),
+                                  DropdownMenuEntry(
+                                      value: 'vi', label: 'Tiếng Việt')
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Divider(),
+
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Row(
+                            children: [
+                              const Icon(CupertinoIcons.moon),
+                              const SizedBox(width: 8),
+                              Text('darkMode').tr(),
+                              Spacer(),
+                              BlocBuilder<ThemeBloc, ThemeMode>(
+                                builder: (context, state) {
+                                  return CupertinoSwitch(
+                                    activeColor: CupertinoColors.destructiveRed,
+                                    value: context.read<ThemeBloc>().state ==
+                                        ThemeMode.dark,
+                                    onChanged: (value) {
+                                      context
+                                          .read<ThemeBloc>()
+                                          .add(ThemeChanged(value));
+                                    },
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        Divider(),
                         BlocConsumer<AuthBloc, AuthState>(
                           listener: (context, state) {
                             (context, state) {
@@ -125,78 +182,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           buildWhen: (previous, current) =>
                               current is! AuthActionState,
                           builder: (context, state) {
-                            return buildProfileButton(
+                            return CupertinoButton(
                               onPressed: () {
                                 context.read<AuthBloc>().add(SignOutRequest());
                               },
-                              label: 'logOut'.tr(),
+                              child: Text(
+                                'logOut',
+                                style: TextStyle(
+                                    color: CupertinoColors.destructiveRed),
+                              ).tr(),
                             );
                           },
                         ),
-                      ],
-                    ),
-                  ]))),
+                      ]),
+                ))),
+      ),
     );
   }
-}
-
-Widget buildProfileButton(
-    {required VoidCallback onPressed, IconData? icon, required String label}) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8.0),
-    child: CupertinoButton(
-      onPressed: onPressed,
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          if (icon != null) Icon(icon),
-          Text(label).tr(),
-          SizedBox(width: icon != null ? 8.0 : 0),
-        ],
-      ),
-    ),
-  );
-}
-
-Widget buildLanguageDropdown(BuildContext context) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8.0),
-    child: Row(
-      children: [
-        const Icon(CupertinoIcons.globe),
-        const SizedBox(width: 8),
-        const Text('language').tr(),
-        const Spacer(),
-        DropdownMenu(
-          onSelected: (value) {
-            context.setLocale(Locale(value!));
-          },
-          initialSelection: Localizations.localeOf(context).languageCode,
-          dropdownMenuEntries: const [
-            DropdownMenuEntry(value: 'en', label: 'English'),
-            DropdownMenuEntry(value: 'vi', label: 'Tiếng Việt')
-          ],
-        ),
-      ],
-    ),
-  );
-}
-
-Widget buildDarkModeSwitch(BuildContext context) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8.0),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const Text('darkMode').tr(),
-        CupertinoSwitch(
-          value: context.read<ThemeBloc>().state == ThemeMode.dark,
-          onChanged: (value) {
-            context.read<ThemeBloc>().add(ThemeChanged(value));
-          },
-        ),
-      ],
-    ),
-  );
 }

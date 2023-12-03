@@ -95,7 +95,7 @@ ThemeData darkTheme = ThemeData(
 
 const lightColorScheme = ColorScheme.light(
   brightness: Brightness.light,
-  primary: Color.fromARGB(255, 217, 12, 12),
+  primary: CupertinoColors.black,
   onPrimary: Color(0xFFFFFFFF),
   primaryContainer: Color.fromARGB(255, 255, 255, 255),
   onPrimaryContainer: Color(0xFF21005D),
@@ -131,7 +131,7 @@ const darkColorScheme = ColorScheme(
   brightness: Brightness.dark,
   primary: Color.fromARGB(255, 255, 255, 255),
   onPrimary: Color(0xFF381E72),
-  primaryContainer: CupertinoColors.systemGrey6,
+  primaryContainer: CupertinoColors.systemGrey,
   onPrimaryContainer: Color(0xFFEADDFF),
   secondary: Color.fromARGB(255, 255, 255, 255),
   onSecondary: Color(0xFF332D41),

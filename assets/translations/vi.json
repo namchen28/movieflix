@@ -13,5 +13,21 @@
     "language": "Ngôn ngữ",
     "logOut": "Đăng xuất",
     "error": "Lỗi",
-    "noReview": "Không có đánh giá"
+    "noDetail": "Không có thông tin chi tiết",
+    "signIn": "Đăng nhập",
+    "signUp" : "Đăng ký",
+    "forgotPw": "Quên mật khẩu",
+    "dontHaveAcc": "Không có tài khoản?",
+    "google": "Đăng nhập bằng Google",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "username": "Tên tài khoản",
+    "alrHaveAcc": "Đã có tài khoản?",
+    "removeFavorite": "Đã xóa khỏi danh sách yêu thích",
+    "addFavorite": "Đã thêm vào danh sách yêu thích",
+    "resetPassword": "Đặt lại mật khẩu",
+    "watchList": "Danh sách theo dõi",
+    "resetText": "Nhập địa chỉ email của bạn để thiết lập lại mật khẩu của bạn!",
+    "trailer": "Không có đoạn giới thiệu nào cho bộ phim này.",
+    "delete": "Xóa"
 }

@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieflix/bloc/movie_detail_bloc.dart';
 import 'package:movieflix/constants.dart';
+import 'package:movieflix/model/cast_model.dart';
 import 'package:movieflix/model/review_model.dart';
 import 'package:movieflix/model/movies_model.dart';
 import 'package:movieflix/model/video_model.dart';
@@ -23,11 +26,42 @@ class MovieDetailPage extends StatefulWidget {
 class _MovieDetailPageState extends State<MovieDetailPage> {
   final VideoModel video = const VideoModel();
   final MovieDetailBloc movieDetailBloc = MovieDetailBloc();
+  bool isFavorite = false;
 
   @override
   void initState() {
     movieDetailBloc.add(MovieDetailInitialEvent(movieId: widget.movie));
     super.initState();
+    checkFavoriteStatus();
+  }
+
+  final userId = FirebaseAuth.instance.currentUser?.uid;
+  Future<bool> checkFavoriteStatus() async {
+    final DocumentSnapshot snapshot =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+
+    if (snapshot.exists) {
+      final data = snapshot.data() as Map<String, dynamic>;
+      if (data.containsKey('favoriteMovies')) {
+        final List<String> favoriteMovies =
+            List<String>.from(data['favoriteMovies']);
+        isFavorite = favoriteMovies.contains(widget.movie.id.toString());
+        print(isFavorite);
+        return isFavorite;
+      }
+    }
+    return false;
+  }
+
+  Future<void> _toggleFavorite() async {
+    if (await checkFavoriteStatus()) {
+      movieDetailBloc.add(RemoveFromFavoriteListEvent(movie: widget.movie));
+    } else {
+      movieDetailBloc.add(AddToFavoriteListEvent(movie: widget.movie));
+    }
+    setState(() {
+      isFavorite = !isFavorite;
+    });
   }
 
   @override
@@ -44,10 +78,26 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                   builder: (context) =>
                       WatchTrailerWidget(videoId: state.videoId)));
         }
+        if (state is WatchTrailerErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('trailer').tr(),
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
         if (state is AddToFavoriteListState) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Added to favorite list'),
+            SnackBar(
+              content: Text('addFavorite').tr(),
+              duration: Duration(seconds: 1),
+            ),
+          );
+        }
+        if (state is RemoveFromFavoriteListState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('removeFavorite').tr(),
               duration: Duration(seconds: 1),
             ),
           );
@@ -89,8 +139,11 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 image: DecorationImage(
-                                  image: NetworkImage(
-                                      "${Constant.imagePath}${successState.movieDetail.posterPath}"),
+                                  image: NetworkImage(successState
+                                              .movieDetail.posterPath !=
+                                          null
+                                      ? "${Constant.imagePath}${successState.movieDetail.posterPath}"
+                                      : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'),
                                   fit: BoxFit.fill,
                                 ),
                               ),
@@ -178,7 +231,10 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                                                 .titleLarge)
                                         .tr(),
                                     const SizedBox(height: 16),
-                                    CastWidget(castList: successState.cast),
+
+                                    // CastWidget(castList: successState.cast) ,
+                                    _getCast(successState.cast),
+                                    const SizedBox(height: 16),
                                     Text("review",
                                             style: Theme.of(context)
                                                 .textTheme
@@ -199,7 +255,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                InkWell(
+                                GestureDetector(
                                   onTap: () {
                                     Navigator.pop(context);
                                   },
@@ -207,15 +263,20 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                                     iconData: Icon(Icons.arrow_back_ios_new),
                                   ),
                                 ),
-                                InkWell(
-                                  onTap: () {
-                                    movieDetailBloc.add(AddToFavoriteListEvent(
-                                        movie: widget.movie));
-                                  },
-                                  child: const ButtonCustom(
-                                    iconData: Icon(Icons.bookmark_rounded),
-                                  ),
-                                ),
+                                GestureDetector(
+                                    onTap: () {
+                                      _toggleFavorite();
+                                    },
+                                    child: isFavorite
+                                        ? const ButtonCustom(
+                                            iconData: Icon(
+                                            Icons.bookmark_rounded,
+                                          ))
+                                        : const ButtonCustom(
+                                            iconData: Icon(
+                                              Icons.bookmark_border_rounded,
+                                            ),
+                                          )),
                               ]),
                         ),
                       ]),
@@ -259,6 +320,14 @@ class SectionListView extends StatelessWidget {
   }
 }
 
+Widget _getCast(List<CastModels>? cast) {
+  if (cast != null && cast.isNotEmpty) {
+    return CastWidget(castList: cast);
+  } else {
+    return Text("noDetail").tr();
+  }
+}
+
 Widget _getReviews(List<ReviewModel>? reviews) {
   if (reviews != null && reviews.isNotEmpty) {
     return Column(
@@ -275,7 +344,7 @@ Widget _getReviews(List<ReviewModel>? reviews) {
     );
   } else {
     return SizedBox(
-      child: const Text('noReview').tr(),
+      child: Text('noDetail').tr(),
     );
   }
 }

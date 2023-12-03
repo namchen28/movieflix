@@ -1,8 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieflix/auth/auth_bloc.dart';
 import 'package:movieflix/screen/signin_screen.dart';
+import 'package:movieflix/widget/password_text_field.dart';
+import 'package:movieflix/widget/text_field.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -98,96 +101,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       children: [
                         const Text('Email'),
                         const SizedBox(height: 8),
-                        CupertinoTextField(
-                            decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondaryContainer,
-                                borderRadius: BorderRadius.circular(14)),
-                            placeholderStyle:
-                                const TextStyle(color: Colors.grey),
-                            controller: _emailController,
-                            placeholder: 'Email',
-                            padding: EdgeInsets.all(10),
-                            style: Theme.of(context).textTheme.titleSmall),
+                        CustomTextField(
+                            emailController: _emailController,
+                            placeHolder: "Email"),
                         const SizedBox(height: 8),
-                        const Text('Username'),
+                        const Text('username').tr(),
                         const SizedBox(height: 8),
-                        CupertinoTextField(
-                            decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondaryContainer,
-                                borderRadius: BorderRadius.circular(14)),
-                            placeholderStyle:
-                                const TextStyle(color: Colors.grey),
-                            controller: _nameController,
-                            placeholder: 'Username',
-                            padding: EdgeInsets.all(10),
-                            style: Theme.of(context).textTheme.titleSmall),
+                        CustomTextField(
+                            emailController: _nameController,
+                            placeHolder: "username".tr()),
                         const SizedBox(height: 8),
-                        const Text('Password'),
+                        const Text('password').tr(),
                         const SizedBox(height: 8),
                         SizedBox(
                           height: 45,
-                          child: CupertinoTextField(
-                              obscureText: obscurePassword,
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .secondaryContainer,
-                                  borderRadius: BorderRadius.circular(14)),
-                              placeholderStyle:
-                                  const TextStyle(color: Colors.grey),
-                              controller: _passwordController,
-                              placeholder: 'Password',
-                              padding: const EdgeInsets.all(10),
-                              suffix: IconButton(
-                                padding: const EdgeInsets.all(8),
-                                iconSize: 24,
-                                onPressed: () {
-                                  _togglePasswordVisibility();
-                                },
-                                icon: Icon(
-                                  obscurePassword
-                                      ? CupertinoIcons.eye_slash_fill
-                                      : CupertinoIcons.eye_fill,
-                                ),
-                                color: CupertinoColors.systemGrey,
-                              ),
-                              style: Theme.of(context).textTheme.titleSmall),
+                          child: PasswordTextField(
+                            obscureText: obscurePassword,
+                            passwordController: _passwordController,
+                            placeHolder: 'password'.tr(),
+                          ),
                         ),
                         const SizedBox(height: 8),
-                        const Text('Confirm password'),
+                        const Text('confirmPassword').tr(),
                         const SizedBox(height: 8),
                         SizedBox(
                           height: 45,
-                          child: CupertinoTextField(
+                          child: PasswordTextField(
                               obscureText: obscureConfirmPassword,
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .secondaryContainer,
-                                  borderRadius: BorderRadius.circular(14)),
-                              placeholderStyle:
-                                  const TextStyle(color: Colors.grey),
-                              controller: _confirmPasswordController,
-                              placeholder: 'Confirm password',
-                              padding: const EdgeInsets.all(10),
-                              suffix: IconButton(
-                                padding: const EdgeInsets.all(8),
-                                iconSize: 24,
-                                onPressed: () {
-                                  _toggleConfirmPasswordVisibility();
-                                },
-                                icon: Icon(
-                                  obscureConfirmPassword
-                                      ? CupertinoIcons.eye_slash_fill
-                                      : CupertinoIcons.eye_fill,
-                                ),
-                                color: CupertinoColors.systemGrey,
-                              ),
-                              style: Theme.of(context).textTheme.titleSmall),
+                              passwordController: _confirmPasswordController,
+                              placeHolder: 'confirmPassword'.tr()),
                         ),
                       ],
                     ),
@@ -205,23 +147,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           );
                         },
-                        child: Text('Sign Up',
-                            style: Theme.of(context).textTheme.titleSmall)),
+                        child: Text('signUp',
+                                style: Theme.of(context).textTheme.titleSmall)
+                            .tr()),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('Already have an account?'),
-                        TextButton(
-                            onPressed: () {
-                              BlocProvider.of<AuthBloc>(context).add(
-                                SignInNavigateEvent(),
-                              );
-                            },
-                            child: const Text(
-                              'Sign In',
-                              style: TextStyle(
-                                  color: CupertinoColors.destructiveRed),
-                            )),
+                        const Text('alrHaveAcc').tr(),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            BlocProvider.of<AuthBloc>(context).add(
+                              SignInNavigateEvent(),
+                            );
+                          },
+                          child: const Text(
+                            'signIn',
+                            style: TextStyle(
+                                color: CupertinoColors.destructiveRed),
+                          ).tr(),
+                        ),
                       ],
                     ),
                   ],

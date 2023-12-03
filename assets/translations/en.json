@@ -13,6 +13,23 @@
     "language": "Languages",
     "logOut": "Log Out",
     "error": "Error",
-    "noReview": "No Review"
+    "noDetail": "No details available",
+    "signIn": "Sign In",
+    "signUp" : "Sign Up",
+    "forgotPw": "Forgot Password",
+    "dontHaveAcc": "Don't have an account?",
+    "google": "Sign In with Google",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "username": "Username",
+    "alrHaveAcc": "Already have an account?",
+    "removeFavorite": "Removed from favorite list",
+    "addFavorite": "Added to favorite list",
+    "resetPassword": "Reset Password",
+    "watchList": "Watchlist",
+    "resetText": "Enter your email address to reset your password!",
+    "trailder": "No trailer available for this movie.",
+    "delete": "Delete"
+    
 
 }

@@ -31,8 +31,16 @@ class WatchTrailerNavigateState extends MovieDetailActionState {
   WatchTrailerNavigateState({required this.videoId});
 }
 
+class WatchTrailerErrorState extends MovieDetailActionState {}
+
 class AddToFavoriteListState extends MovieDetailActionState {
   final Movies movieDetail;
 
   AddToFavoriteListState({required this.movieDetail});
+}
+
+class RemoveFromFavoriteListState extends MovieDetailActionState {
+  final Movies movieDetail;
+
+  RemoveFromFavoriteListState({required this.movieDetail});
 }

@@ -7,8 +7,8 @@ class ButtonCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 40,
-        width: 40,
+        height: 48,
+        width: 48,
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
@@ -16,7 +16,7 @@ class ButtonCustom extends StatelessWidget {
         ),
         child: Icon(
           iconData.icon,
-          size: 24,
+          size: 32,
           color: Colors.white,
         ));
   }

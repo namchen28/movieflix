@@ -42,7 +42,60 @@ class FavoriteRepo {
     return [];
   }
 
-  Future<void> switchFavoriteMovie(Movies movie) async {
+  // Future<void> switchFavoriteMovie(Movies movie) async {
+  //   if (userId != null) {
+  //     final DocumentSnapshot snapshot =
+  //         await _firestore.collection('users').doc(userId).get();
+
+  //     if (snapshot.exists) {
+  //       final data = snapshot.data() as Map<String, dynamic>;
+  //       if (data.containsKey('favoriteMovies')) {
+  //         final List<String> favoriteMovies =
+  //             List<String>.from(data['favoriteMovies']);
+
+  //         if (favoriteMovies.contains(movie.id.toString())) {
+  //           await _firestore.collection('users').doc(userId).update({
+  //             'favoriteMovies': FieldValue.arrayRemove([movie.id.toString()]),
+  //           });
+  //         } else {
+  //           await _firestore.collection('users').doc(userId).update({
+  //             'favoriteMovies': FieldValue.arrayUnion([movie.id.toString()]),
+  //           });
+  //         }
+  //       } else {
+  //         await _firestore.collection('users').doc(userId).update({
+  //           'favoriteMovies': [movie.id.toString()],
+  //         });
+  //       }
+  //     }
+  //   }
+  // }
+  Future<void> addToFavorite(Movies movie) async {
+    if (userId != null) {
+      final DocumentSnapshot snapshot =
+          await _firestore.collection('users').doc(userId).get();
+
+      if (snapshot.exists) {
+        final data = snapshot.data() as Map<String, dynamic>;
+        if (data.containsKey('favoriteMovies')) {
+          final List<String> favoriteMovies =
+              List<String>.from(data['favoriteMovies']);
+
+          if (!favoriteMovies.contains(movie.id.toString())) {
+            await _firestore.collection('users').doc(userId).update({
+              'favoriteMovies': FieldValue.arrayUnion([movie.id.toString()]),
+            });
+          }
+        } else {
+          await _firestore.collection('users').doc(userId).update({
+            'favoriteMovies': [movie.id.toString()],
+          });
+        }
+      }
+    }
+  }
+
+  Future<void> removeFromFavorite(Movies movie) async {
     if (userId != null) {
       final DocumentSnapshot snapshot =
           await _firestore.collection('users').doc(userId).get();
@@ -57,15 +110,7 @@ class FavoriteRepo {
             await _firestore.collection('users').doc(userId).update({
               'favoriteMovies': FieldValue.arrayRemove([movie.id.toString()]),
             });
-          } else {
-            await _firestore.collection('users').doc(userId).update({
-              'favoriteMovies': FieldValue.arrayUnion([movie.id.toString()]),
-            });
           }
-        } else {
-          await _firestore.collection('users').doc(userId).update({
-            'favoriteMovies': [movie.id.toString()],
-          });
         }
       }
     }
