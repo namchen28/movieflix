@@ -1,9 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:movieflix/home_bloc/home_bloc.dart';
 import 'package:movieflix/constants.dart';
 import 'package:movieflix/model/movies_model.dart';
+import 'package:movieflix/movie/bloc/home_bloc.dart';
 
 class TrendingSlider extends StatelessWidget {
   final HomeBloc homeBloc;
@@ -33,7 +33,7 @@ class TrendingSlider extends StatelessWidget {
                                   ? '${Constant.imagePath}${movie.posterPath}'
                                   : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
                             ),
-                            fit: BoxFit.cover,
+                            fit: BoxFit.fill,
                           )),
                     ),
                   ))

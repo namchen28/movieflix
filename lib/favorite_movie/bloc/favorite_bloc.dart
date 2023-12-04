@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
-import 'package:movieflix/api.dart';
-import 'package:movieflix/favorite_repo.dart';
+import 'package:movieflix/data/api.dart';
+import 'package:movieflix/favorite_movie/data/favorite_repo.dart';
 import 'package:movieflix/model/movies_model.dart';
 
 part 'favorite_event.dart';
@@ -24,7 +24,6 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       emit(FavoriteMoviesLoading());
       List<String?> movieId = await FavoriteRepo().getFavoriteMovieIds();
       List<Movies> favoriteMovies = [];
-      print("movieId: ${movieId.runtimeType}");
       for (var id in movieId) {
         final idInt = int.parse(id!);
         Movies movie = (await _api.fetchMovieDetails(idInt));
@@ -44,7 +43,6 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       emit(FavoriteMovieRemoveMovieState());
       List<String?> movieId = await FavoriteRepo().getFavoriteMovieIds();
       List<Movies> favoriteMovies = [];
-      print("movieIdRemove: ${movieId.runtimeType}");
       for (var id in movieId) {
         final idInt = int.parse(id!);
         Movies movie = (await _api.fetchMovieDetails(idInt));

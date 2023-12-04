@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movieflix/auth/auth_bloc.dart';
-import 'package:movieflix/screen/signin_screen.dart';
+import 'package:movieflix/auth/bloc/auth_bloc.dart';
+import 'package:movieflix/auth/presentation/signin_screen.dart';
 import 'package:movieflix/widget/password_text_field.dart';
 import 'package:movieflix/widget/text_field.dart';
 
@@ -15,10 +15,11 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   void dispose() {
@@ -31,17 +32,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
-  void _togglePasswordVisibility() {
-    setState(() {
-      obscurePassword = !obscurePassword;
-    });
-  }
-
-  void _toggleConfirmPasswordVisibility() {
-    setState(() {
-      obscureConfirmPassword = !obscureConfirmPassword;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +72,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SignInScreen(),
+                      builder: (context) => const SignInScreen(),
                     ),
                   );
                 }
@@ -150,14 +140,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: Text('signUp',
                                 style: Theme.of(context).textTheme.titleSmall)
                             .tr()),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text('alrHaveAcc').tr(),
-                        SizedBox(
+                        const SizedBox(
                           width: 8,
                         ),
                         GestureDetector(

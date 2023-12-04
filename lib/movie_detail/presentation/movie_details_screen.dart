@@ -4,26 +4,26 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movieflix/bloc/movie_detail_bloc.dart';
 import 'package:movieflix/constants.dart';
 import 'package:movieflix/model/cast_model.dart';
-import 'package:movieflix/model/review_model.dart';
 import 'package:movieflix/model/movies_model.dart';
+import 'package:movieflix/model/review_model.dart';
 import 'package:movieflix/model/video_model.dart';
+import 'package:movieflix/movie_detail/bloc/movie_detail_bloc.dart';
 import 'package:movieflix/widget/button.dart';
 import 'package:movieflix/widget/cast_widget.dart';
 import 'package:movieflix/widget/review_card.dart';
 import 'package:movieflix/widget/watch_trailer_widget.dart';
 
-class MovieDetailPage extends StatefulWidget {
+class MovieDetailScreen extends StatefulWidget {
   final Movies movie;
-  const MovieDetailPage({super.key, required this.movie});
+  const MovieDetailScreen({super.key, required this.movie});
 
   @override
-  State<MovieDetailPage> createState() => _MovieDetailPageState();
+  State<MovieDetailScreen> createState() => _MovieDetailScreenState();
 }
 
-class _MovieDetailPageState extends State<MovieDetailPage> {
+class _MovieDetailScreenState extends State<MovieDetailScreen> {
   final VideoModel video = const VideoModel();
   final MovieDetailBloc movieDetailBloc = MovieDetailBloc();
   bool isFavorite = false;
@@ -46,7 +46,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
         final List<String> favoriteMovies =
             List<String>.from(data['favoriteMovies']);
         isFavorite = favoriteMovies.contains(widget.movie.id.toString());
-        print(isFavorite);
         return isFavorite;
       }
     }
@@ -81,24 +80,24 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
         if (state is WatchTrailerErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('trailer').tr(),
-              duration: Duration(seconds: 2),
+              content: const Text('trailer').tr(),
+              duration: const Duration(seconds: 2),
             ),
           );
         }
         if (state is AddToFavoriteListState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('addFavorite').tr(),
-              duration: Duration(seconds: 1),
+              content: const Text('addFavorite').tr(),
+              duration: const Duration(seconds: 1),
             ),
           );
         }
         if (state is RemoveFromFavoriteListState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('removeFavorite').tr(),
-              duration: Duration(seconds: 1),
+              content: const Text('removeFavorite').tr(),
+              duration: const Duration(seconds: 1),
             ),
           );
         }
@@ -324,7 +323,7 @@ Widget _getCast(List<CastModels>? cast) {
   if (cast != null && cast.isNotEmpty) {
     return CastWidget(castList: cast);
   } else {
-    return Text("noDetail").tr();
+    return const Text("noDetail").tr();
   }
 }
 
@@ -344,7 +343,7 @@ Widget _getReviews(List<ReviewModel>? reviews) {
     );
   } else {
     return SizedBox(
-      child: Text('noDetail').tr(),
+      child: const Text('noDetail').tr(),
     );
   }
 }

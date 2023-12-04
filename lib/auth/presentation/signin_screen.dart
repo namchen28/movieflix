@@ -2,10 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movieflix/auth/auth_bloc.dart';
-import 'package:movieflix/auth_repository.dart';
-import 'package:movieflix/screen/forgot_password.dart';
-import 'package:movieflix/screen/signup_screen.dart';
+import 'package:movieflix/auth/bloc/auth_bloc.dart';
+import 'package:movieflix/auth/data/repo/auth_repository.dart';
+import 'package:movieflix/auth/presentation/forgot_password.dart';
+import 'package:movieflix/auth/presentation/signup_screen.dart';
 import 'package:movieflix/widget/home.dart';
 import 'package:movieflix/widget/password_text_field.dart';
 import 'package:movieflix/widget/text_field.dart';
@@ -18,8 +18,8 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
@@ -58,8 +58,10 @@ class _SignInScreenState extends State<SignInScreen> {
             child: BlocConsumer<AuthBloc, AuthState>(
               listener: (context, state) {
                 if (state is SignInSuccessState) {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomeScreen()));
                   _emailController.clear();
                   _passwordController.clear();
                 }
@@ -118,7 +120,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
+                        const Row(
                           children: [
                             // CupertinoCheckbox(
                             //   value: false,

@@ -29,7 +29,8 @@
     "watchList": "Watchlist",
     "resetText": "Enter your email address to reset your password!",
     "trailder": "No trailer available for this movie.",
-    "delete": "Delete"
+    "delete": "Delete",
+    "noMovieInWatchlist": "No movies in your watchlist"
     
 
 }

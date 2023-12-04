@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieflix/constants.dart';
-import 'package:movieflix/screen/movie_details_screen.dart';
-import 'package:movieflix/search_bloc/search_bloc.dart';
+import 'package:movieflix/movie_detail/presentation/movie_details_screen.dart';
+import 'package:movieflix/search/bloc/search_bloc.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -32,7 +32,7 @@ class _SearchScreenState extends State<SearchScreen> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => MovieDetailPage(movie: state.movie)));
+                  builder: (context) => MovieDetailScreen(movie: state.movie)));
         }
       },
       listenWhen: (previous, current) => current is SearchActionState,
@@ -87,7 +87,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       child: GridView.builder(
                           physics: const BouncingScrollPhysics(),
                           gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             crossAxisSpacing: 12,
                             childAspectRatio: 0.55,

@@ -3,7 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:movieflix/auth_repository.dart';
+import 'package:movieflix/auth/data/repo/auth_repository.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 

@@ -7,16 +7,6 @@ class WatchTrailerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (videoId == null) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text("Trailer"),
-        ),
-        body: Center(
-          child: Text('Sorry, no trailer is available for this movie.'),
-        ),
-      );
-    }
     YoutubePlayerController controller = YoutubePlayerController(
       initialVideoId: videoId,
       flags: const YoutubePlayerFlags(

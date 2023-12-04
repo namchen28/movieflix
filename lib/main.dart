@@ -1,13 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movieflix/auth/auth_bloc.dart';
-import 'package:movieflix/auth_main.dart';
-import 'package:movieflix/auth_repository.dart';
-import 'package:movieflix/bloc/theme.dart';
-import 'package:movieflix/bloc/theme_bloc.dart';
-import 'package:movieflix/home_bloc/home_bloc.dart';
+import 'package:movieflix/auth/bloc/auth_bloc.dart';
+import 'package:movieflix/auth/auth_main.dart';
+import 'package:movieflix/auth/data/repo/auth_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:movieflix/movie/bloc/home_bloc.dart';
+import 'package:movieflix/theme/theme.dart';
+import 'package:movieflix/theme/bloc/theme_bloc.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -61,12 +61,12 @@ class _MainAppState extends State<MainApp> {
               darkTheme: darkTheme,
               themeMode: ThemeMode.dark,
               theme: lightTheme,
-              home: AuthMain(),
+              home: const AuthMain(),
               builder: (context, child) {
                 return BlocBuilder<ThemeBloc, ThemeMode>(
                   builder: (context, state) {
                     return Theme(
-                      child: child ?? SizedBox(),
+                      child: child ?? const SizedBox(),
                       data: state == ThemeMode.dark ? darkTheme : lightTheme,
                     );
                   },

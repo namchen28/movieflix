@@ -3,12 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:movieflix/home_bloc/home_bloc.dart';
-import 'package:movieflix/main.dart';
-import 'package:movieflix/screen/movie_details_screen.dart';
-import 'package:movieflix/screen/profile_screen.dart';
-import 'package:movieflix/screen/search_screen.dart';
-import 'package:movieflix/widget/home.dart';
+import 'package:movieflix/movie/bloc/home_bloc.dart';
+import 'package:movieflix/movie_detail/presentation/movie_details_screen.dart';
 import 'package:movieflix/widget/movie_slider.dart';
 import 'package:movieflix/widget/trending_slider.dart';
 
@@ -37,7 +33,8 @@ class _MovieScreenState extends State<MovieScreen> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => MovieDetailPage(movie: state.movie)));
+                    builder: (context) =>
+                        MovieDetailScreen(movie: state.movie)));
           }
         },
         listenWhen: (previous, current) => current is HomeActionState,

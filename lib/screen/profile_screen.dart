@@ -3,15 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movieflix/auth/auth_bloc.dart';
-import 'package:movieflix/auth_main.dart';
+import 'package:movieflix/auth/bloc/auth_bloc.dart';
+import 'package:movieflix/auth/auth_main.dart';
 
-import 'package:movieflix/bloc/theme_bloc.dart';
-import 'package:movieflix/favorite_movie/ui/favorite_screen.dart';
+import 'package:movieflix/favorite_movie/presentation/favorite_screen.dart';
+import 'package:movieflix/theme/bloc/theme_bloc.dart';
 import 'package:movieflix/screen/reset_password_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
-  ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -25,8 +25,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            physics: BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            physics: const BouncingScrollPhysics(),
             child: SizedBox(
                 height: MediaQuery.of(context).size.height,
                 child: Padding(
@@ -55,70 +55,70 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        // buildProfileButton(
-                        //   onPressed: () {
-                        //     Navigator.of(context).push(MaterialPageRoute(
-                        //       builder: (context) => ResetPasswordScreen(),
-                        //     ));
-                        //   },
-                        //   icon: CupertinoIcons.pencil,
-                        //   label: 'Reset Password',
-                        // ),
-                        Divider(),
+                        const Divider(),
                         CupertinoButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ResetPasswordScreen(),
+                              builder: (context) => const ResetPasswordScreen(),
                             ));
                           },
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 CupertinoIcons.pencil,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 8,
                               ),
-                              Text('resetPassword').tr(),
-                              Spacer(),
-                              Icon(CupertinoIcons.right_chevron)
+                              Text(
+                                'resetPassword',
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ).tr(),
+                              const Spacer(),
+                              const Icon(CupertinoIcons.right_chevron)
                             ],
                           ),
                         ),
-                        Divider(),
+                        const Divider(),
                         CupertinoButton(
                           onPressed: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        FavoriteMoviesScreen()));
+                                        const FavoriteMoviesScreen()));
                           },
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 CupertinoIcons.bookmark,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 8,
                               ),
-                              Text('watchList').tr(),
-                              Spacer(),
-                              Icon(CupertinoIcons.right_chevron)
+                              Text(
+                                'watchList',
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ).tr(),
+                              const Spacer(),
+                              const Icon(CupertinoIcons.right_chevron)
                             ],
                           ),
                         ),
-                        Divider(),
+                        const Divider(),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Row(
                             children: [
                               const Icon(CupertinoIcons.globe),
                               const SizedBox(width: 8),
-                              const Text('language').tr(),
-                              Spacer(),
+                              Text(
+                                'language',
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ).tr(),
+                              const Spacer(),
                               DropdownMenu(
                                 width: 160,
                                 onSelected: (value) {
@@ -127,7 +127,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 initialSelection:
                                     Localizations.localeOf(context)
                                         .languageCode,
-                                dropdownMenuEntries: [
+                                dropdownMenuEntries: const [
                                   DropdownMenuEntry(
                                       value: 'en', label: 'English'),
                                   DropdownMenuEntry(
@@ -137,16 +137,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ],
                           ),
                         ),
-                        Divider(),
-
+                        const Divider(),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Row(
                             children: [
                               const Icon(CupertinoIcons.moon),
                               const SizedBox(width: 8),
-                              Text('darkMode').tr(),
-                              Spacer(),
+                              Text(
+                                'darkMode',
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ).tr(),
+                              const Spacer(),
                               BlocBuilder<ThemeBloc, ThemeMode>(
                                 builder: (context, state) {
                                   return CupertinoSwitch(
@@ -164,14 +166,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ],
                           ),
                         ),
-                        Divider(),
+                        const Divider(),
                         BlocConsumer<AuthBloc, AuthState>(
                           listener: (context, state) {
                             (context, state) {
                               if (state is SignOutSuccessState) {
                                 Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
-                                      builder: (context) => AuthMain()),
+                                      builder: (context) => const AuthMain()),
                                   (route) => false,
                                 );
                               }
@@ -186,7 +188,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               onPressed: () {
                                 context.read<AuthBloc>().add(SignOutRequest());
                               },
-                              child: Text(
+                              child: const Text(
                                 'logOut',
                                 style: TextStyle(
                                     color: CupertinoColors.destructiveRed),

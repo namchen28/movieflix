@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:movieflix/screen/signin_screen.dart';
+import 'package:movieflix/auth/presentation/signin_screen.dart';
 import 'package:movieflix/widget/home.dart';
 
 class AuthMain extends StatelessWidget {
@@ -12,14 +12,14 @@ class AuthMain extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
+            return const Center(
+              child: CircularProgressIndicator(color: Colors.red),
             );
           }
           if (snapshot.hasData) {
             return HomeScreen();
           }
-          return SignInScreen();
+          return const SignInScreen();
         });
   }
 }

@@ -29,5 +29,6 @@
     "watchList": "Danh sách theo dõi",
     "resetText": "Nhập địa chỉ email của bạn để thiết lập lại mật khẩu của bạn!",
     "trailer": "Không có đoạn giới thiệu nào cho bộ phim này.",
-    "delete": "Xóa"
+    "delete": "Xóa",
+    "noMovieInWatchlist": "Không có phim nào trong danh sách xem của bạn"
 }

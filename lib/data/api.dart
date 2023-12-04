@@ -4,7 +4,7 @@ import 'package:movieflix/model/cast_model.dart';
 import 'package:movieflix/model/review_model.dart';
 import 'package:movieflix/model/movies_model.dart';
 import 'package:movieflix/model/video_model.dart';
-import 'package:movieflix/services.dart';
+import 'package:movieflix/data/services.dart';
 
 class Api {
   final MovieService _movieService;

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
-import 'package:movieflix/api.dart';
+import 'package:movieflix/data/api.dart';
 import 'package:movieflix/model/movies_model.dart';
 
 part 'search_event.dart';

@@ -1,14 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movieflix/home_bloc/home_bloc.dart';
-import 'package:movieflix/screen/movie_screen.dart';
+import 'package:movieflix/movie/bloc/home_bloc.dart';
+import 'package:movieflix/movie/presentation/movie_screen.dart';
 import 'package:movieflix/screen/profile_screen.dart';
-import 'package:movieflix/screen/search_screen.dart';
+import 'package:movieflix/search/presentation/search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({
+  const HomeScreen({
     super.key,
   });
 
@@ -20,9 +19,9 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
   List navScreens = [
-    MovieScreen(),
-    SearchScreen(),
-    ProfileScreen(),
+    const MovieScreen(),
+    const SearchScreen(),
+    const ProfileScreen(),
   ];
 
   void changeScreen(int index) {
@@ -33,7 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context.read<HomeBloc>().add(HomeInitialEvent());
   }

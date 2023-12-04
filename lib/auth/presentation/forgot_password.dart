@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movieflix/auth/auth_bloc.dart';
-import 'package:movieflix/screen/signin_screen.dart';
+import 'package:movieflix/auth/bloc/auth_bloc.dart';
+import 'package:movieflix/auth/presentation/signin_screen.dart';
 
 class ForgotPassWordScreen extends StatelessWidget {
   const ForgotPassWordScreen({super.key});
@@ -71,8 +71,8 @@ class ForgotPassWordScreen extends StatelessWidget {
                     placeholderStyle: const TextStyle(color: Colors.grey),
                     placeholder: 'Email',
                     padding: const EdgeInsets.all(10),
-                    prefix: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
+                    prefix: const Padding(
+                      padding: EdgeInsets.only(left: 8.0),
                       child: Icon(
                         CupertinoIcons.mail_solid,
                         color: CupertinoColors.destructiveRed,

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movieflix/home_bloc/home_bloc.dart';
 import 'package:movieflix/constants.dart';
 import 'package:movieflix/model/movies_model.dart';
+import 'package:movieflix/movie/bloc/home_bloc.dart';
 
 class MovieSlider extends StatelessWidget {
   final List<Movies> moviesModel;
@@ -36,7 +36,7 @@ class MovieSlider extends StatelessWidget {
                     width: size.width * 0.42,
                     child: Image.network(
                       filterQuality: FilterQuality.high,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                       moviesModel[index].posterPath != null
                           ? '${Constant.imagePath}${moviesModel[index].posterPath}'
                           : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
