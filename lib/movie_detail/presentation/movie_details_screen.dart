@@ -12,7 +12,10 @@ import 'package:movieflix/model/video_model.dart';
 import 'package:movieflix/movie_detail/bloc/movie_detail_bloc.dart';
 import 'package:movieflix/widget/button.dart';
 import 'package:movieflix/widget/cast_widget.dart';
+import 'package:movieflix/widget/movie_slider.dart';
 import 'package:movieflix/widget/review_card.dart';
+import 'package:movieflix/widget/section_list_view.dart';
+import 'package:movieflix/widget/similar_movie_slider.dart';
 import 'package:movieflix/widget/watch_trailer_widget.dart';
 
 class MovieDetailScreen extends StatefulWidget {
@@ -243,6 +246,19 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                                       height: 16,
                                     ),
                                     _getReviews(successState.review),
+                                    const SizedBox(
+                                      height: 16,
+                                    ),
+                                    Text("similar",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge)
+                                        .tr(),
+                                    const SizedBox(
+                                      height: 16,
+                                    ),
+                                    _getSimilarMoviesList(
+                                        successState.similarMovies)
                                   ]),
                             ),
                           ],
@@ -292,30 +308,16 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
   }
 }
 
-class SectionListView extends StatelessWidget {
-  final int itemCount;
-  final double height;
-  final Widget Function(BuildContext context, int index) itemBuilder;
-
-  const SectionListView({
-    required this.height,
-    required this.itemCount,
-    required this.itemBuilder,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: height,
-      child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        itemCount: itemCount,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: itemBuilder,
-        separatorBuilder: (context, index) => const SizedBox(width: 10),
-      ),
+Widget _getSimilarMoviesList(List<Movies> similarMovies) {
+  if (similarMovies.isNotEmpty) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SimilarMovieSlider(similarMovies: similarMovies),
+      ],
     );
+  } else {
+    return SizedBox.shrink();
   }
 }
 

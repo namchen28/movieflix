@@ -1,0 +1,75 @@
+import 'package:flutter/material.dart';
+import 'package:movieflix/constants.dart';
+import 'package:movieflix/model/movies_model.dart';
+
+import '../movie_detail/presentation/movie_details_screen.dart';
+
+class SimilarMovieSlider extends StatelessWidget {
+  final List<Movies> similarMovies;
+
+  const SimilarMovieSlider({Key? key, required this.similarMovies})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return SizedBox(
+      height: size.height * 0.36,
+      width: double.infinity,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        itemCount: similarMovies.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MovieDetailScreen(
+                    movie: similarMovies[index],
+                  ),
+                ),
+              );
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(14),
+                    child: SizedBox(
+                      height: size.height * 0.3,
+                      width: size.width * 0.42,
+                      child: Image.network(
+                        filterQuality: FilterQuality.high,
+                        fit: BoxFit.fill,
+                        similarMovies[index].posterPath != null
+                            ? '${Constant.imagePath}${similarMovies[index].posterPath}'
+                            : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: size.width * 0.42,
+                  child: Center(
+                    child: Text(
+                      similarMovies[index].title ?? '',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}

@@ -53,4 +53,10 @@ abstract class MovieService {
     @Query('api_key') String apiKey,
     @Query('query') String query,
   );
+
+  @GET('/movie/{movieId}/similar')
+  Future<MovieResponse> getSimilarMovies(
+    @Path('movieId') int movieId,
+    @Query('api_key') String apiKey,
+  );
 }

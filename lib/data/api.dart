@@ -31,6 +31,12 @@ class Api {
     return response.results;
   }
 
+  Future<List<Movies>> getSimilarMovies(int movieId) async {
+    final response =
+        await _movieService.getSimilarMovies(movieId, Constant.apiKey);
+    return response.results;
+  }
+
   Future<Movies> fetchMovieDetails(int movieId) async {
     final response =
         await _movieService.fetchMovieDetails(movieId, Constant.apiKey);
