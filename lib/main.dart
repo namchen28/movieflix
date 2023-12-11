@@ -1,13 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movieflix/auth/bloc/auth_bloc.dart';
-import 'package:movieflix/auth/auth_main.dart';
-import 'package:movieflix/auth/data/repo/auth_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:movieflix/movie/bloc/home_bloc.dart';
-import 'package:movieflix/theme/theme.dart';
-import 'package:movieflix/theme/bloc/theme_bloc.dart';
+import 'features/auth/auth_main.dart';
+import 'features/auth/bloc/auth_bloc.dart';
+import 'features/auth/data/repo/auth_repository.dart';
+import 'features/movie/bloc/home_bloc.dart';
+import 'features/theme/bloc/theme_bloc.dart';
+import 'features/theme/theme.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -61,7 +61,7 @@ class _MainAppState extends State<MainApp> {
               darkTheme: darkTheme,
               themeMode: ThemeMode.dark,
               theme: lightTheme,
-              home: const AuthMain(),
+              home: AuthMain(),
               builder: (context, child) {
                 return BlocBuilder<ThemeBloc, ThemeMode>(
                   builder: (context, state) {

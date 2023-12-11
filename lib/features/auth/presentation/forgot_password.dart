@@ -2,23 +2,23 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movieflix/utils/widget/home.dart';
 
-import '../features/auth/bloc/auth_bloc.dart';
+import '../bloc/auth_bloc.dart';
+import 'signin_screen.dart';
 
-class ResetPasswordScreen extends StatelessWidget {
-  const ResetPasswordScreen({super.key});
+class ForgotPassWordScreen extends StatelessWidget {
+  const ForgotPassWordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final emailController = TextEditingController();
+    final _emailController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0,
         leading: GestureDetector(
-            onTap: () => Navigator.pop(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen())),
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const SignInScreen())),
             child:
                 const Icon(CupertinoIcons.back, size: 24, color: Colors.red)),
       ),
@@ -60,11 +60,11 @@ class ResetPasswordScreen extends StatelessWidget {
                   child: CupertinoTextField(
                     keyboardType: TextInputType.emailAddress,
                     style: Theme.of(context).textTheme.titleSmall,
-                    controller: emailController,
+                    controller: _emailController,
                     onEditingComplete: () {
                       BlocProvider.of<AuthBloc>(context).add(
                           ForgotPasswordRequestEvent(
-                              email: emailController.text));
+                              email: _emailController.text));
                     },
                     decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.secondaryContainer,
@@ -86,7 +86,7 @@ class ResetPasswordScreen extends StatelessWidget {
                   onPressed: (() {
                     BlocProvider.of<AuthBloc>(context).add(
                         ForgotPasswordRequestEvent(
-                            email: emailController.text));
+                            email: _emailController.text));
                   }),
                   color: CupertinoColors.destructiveRed,
                   child: Text("resetPassword",

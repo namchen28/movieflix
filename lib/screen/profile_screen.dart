@@ -3,12 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movieflix/auth/bloc/auth_bloc.dart';
-import 'package:movieflix/auth/auth_main.dart';
 
-import 'package:movieflix/favorite_movie/presentation/favorite_screen.dart';
-import 'package:movieflix/theme/bloc/theme_bloc.dart';
 import 'package:movieflix/screen/reset_password_screen.dart';
+
+import '../features/auth/auth_main.dart';
+import '../features/auth/bloc/auth_bloc.dart';
+import '../features/favorite_movie/presentation/favorite_screen.dart';
+import '../features/theme/bloc/theme_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
